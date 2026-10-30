@@ -1,19 +1,19 @@
 name: Deploy
-on: 
+on:
   push:
-    Branches:[main]  
+    branches: [main]
 
-permissions: 
+permissions:
   contents: read
   pages: write
   id-token: write
 
-jobs: 
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - users: actions/checkout@v4
-      - users: withastro/action@v3
+      - uses: actions/checkout@v4
+      - uses: withastro/action@v3
         with:
           package-manager: npm
           node-version: 22
@@ -23,9 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{steps.deployment.outputs.path_url}}
+      url: ${{ steps.deployment.outputs.path_url }}
     steps:
       - id: deployment
-      uses: action/deploy-pages@v4
-      
-      
+        uses: actions/deploy-pages@v4
