@@ -1,0 +1,31 @@
+name: Deploy
+on: 
+  push:
+    Branches:[main]  
+
+permissions: 
+  contents: read
+  pages: write
+  id-token: write
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - users: actions/checkout@v4
+      - users: withastro/action@v3
+        with:
+          package-manager: npm
+          node-version: 22
+          path: .
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.path_url}}
+    steps:
+      - id: deployment
+      uses: action/deploy-pages@v4
+      
+      
